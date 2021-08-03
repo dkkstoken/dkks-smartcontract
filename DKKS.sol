@@ -4,13 +4,13 @@
 
 /*
 
-Daikokuten is built upon the fundamentals of add liquidity automatically function and increasing the investor's value
+Daikokuten Sama is built upon the fundamentals of add liquidity automatically function and increasing the investor's value
     
 Main features are
     
 1) sell/buy transaction will have different tax percent and distributed to holders for HODLing 
 2) 7% add liquidity and marketing tax is collected and 2% of it is sent for marketing fund and othe 5% is used to add LP
-    
+3) Antiwhate : maximum token of holder is set 2% now.   
 */
 
 // SPDX-License-Identifier: Unlicensed
@@ -427,7 +427,7 @@ contract DKKS is Context, IERC20, Ownable {
     using SafeMath for uint256;
     using Address for address;
     
-    address payable public marketingAddress = payable(0xd85B37491a0F3988F631330cd0323B51E4dcc66d); // Marketing Address
+    address payable public marketingAddress = payable(0x499e96f439aCbE5c00a77cd9561A6B99C74a38A6); // Marketing Address
     address public immutable deadAddress = 0x000000000000000000000000000000000000dEaD;
     mapping (address => uint256) private _rOwned;
     mapping (address => uint256) private _tOwned;
@@ -443,7 +443,7 @@ contract DKKS is Context, IERC20, Ownable {
     uint256 private _rTotal = (MAX - (MAX % _tTotal));
     uint256 private _tFeeTotal;
 
-    string private _name = "DAIKOKUTENSAMA";
+    string private _name = "DAIKOKUTEN SAMA";
     string private _symbol = "DKKS";
     uint8 private _decimals = 9;
 
