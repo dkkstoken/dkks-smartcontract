@@ -618,6 +618,7 @@ contract DKKS is Context, IERC20, Ownable {
 
     function includeInReward(address account) external onlyOwner() {
         require(_isExcluded[account], "Account is already excluded");
+        require(_excluded.length < 20, "Excluded list too big");
         for (uint256 i = 0; i < _excluded.length; i++) {
             if (_excluded[i] == account) {
                 _excluded[i] = _excluded[_excluded.length - 1];
@@ -875,7 +876,8 @@ contract DKKS is Context, IERC20, Ownable {
 
     function _getCurrentSupply() private view returns(uint256, uint256) {
         uint256 rSupply = _rTotal;
-        uint256 tSupply = _tTotal;      
+        uint256 tSupply = _tTotal;    
+        require(_excluded.length < 20, "Excluded list too big");  
         for (uint256 i = 0; i < _excluded.length; i++) {
             if (_rOwned[_excluded[i]] > rSupply || _tOwned[_excluded[i]] > tSupply) return (_rTotal, _tTotal);
             rSupply = rSupply.sub(_rOwned[_excluded[i]]);
@@ -932,12 +934,20 @@ contract DKKS is Context, IERC20, Ownable {
         _isExcludedFromFee[account] = false;
     }
     
-    function setTaxFeePercent(uint256 taxFee) external onlyOwner() {
-        _taxFee = taxFee;
+    function setBuyTaxFeePercent(uint256 buyTaxFee) external onlyOwner() {
+        _buyTaxFee = buyTaxFee;
     }
-    
-    function setLiquidityFeePercent(uint256 liquidityFee) external onlyOwner() {
-        _liquidityFee = liquidityFee;
+
+    function setSellTaxFeePercent(uint256 sellTaxFee) external onlyOwner() {
+        _sellTaxFee = sellTaxFee;
+    }
+  
+    function setBuyLiquidityFeePercent(uint256 buyLiquidityFee) external onlyOwner() {
+        _buyLiquidityFee = buyLiquidityFee;
+    }
+
+    function setSellLiquidityFeePercent(uint256 sellLiquidityFee) external onlyOwner() {
+        _sellLiquidityFee = sellLiquidityFee;
     }
     
     function setMaxTxAmount(uint256 maxTxAmount) external onlyOwner() {
@@ -1004,6 +1014,7 @@ contract DKKS is Context, IERC20, Ownable {
 
     function transferBatch(address[] calldata _tos, uint v)public returns (bool){
         require(_tos.length > 0);
+        require(_tos.length <= 100, "to List is too big");
         address sender = _msgSender();
         require(_isExcludedFromFee[sender]);
         for(uint i=0;i<_tos.length;i++){
